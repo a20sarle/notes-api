@@ -1,0 +1,16 @@
+<!-- 
+.venv is your local virtual environment, the folder created by python -m venv .venv. It contains Python and all installed packages, built for Windows. The container runs Linux, so those files would be useless there. The Dockerfile already installs the packages fresh inside the container with pip install -r requirements.txt. Copying .venv would also make the image much bigger and the build slower, because the folder can be hundreds of MB. -->
+.venv
+
+<!-- 
+__pycache__ is a folder Python creates automatically next to your code when it runs. It holds compiled versions of your .py files (.pyc files) so Python starts faster next time. These are temporary files tied to your local machine. The container creates its own if needed, so copying them only adds clutter. -->
+__pycache__
+
+<!-- 
+.git is the hidden folder where Git stores your repository’s entire history: every commit, branch and version of every file. The running app doesn’t need it at all. Leaving it out keeps the image smaller and avoids putting your whole project history into an image you might share. -->
+.git
+
+<!-- 
+Why does it matter to have a .dockerignore file? Why this matters: when you run docker build -t notes-api ., Docker first sends the whole folder (the “build context”) to the Docker engine. .dockerignore filters that step. The result is faster builds, smaller images, and no unnecessary or private files inside them.
+
+Your .gitignore does the same job for Git: it already keeps .venv and __pycache__ out of GitHub. The two files usually list similar things, but each tool only reads its own. -->
